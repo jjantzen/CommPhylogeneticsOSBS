@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name=Ordway  #A name for your job
+#SBATCH -o job_%j.out   #Name output file
+#SBATCH --mail-type=ALL   #What emails you want
+#SBATCH --mail-user=jjantzen@ufl.edu   #Where
+#SBATCH --ntasks 8   #Request a single processor
+#SBATCH --mem-per-cpu=1gb   #Per processor memory request
+#SBATCH -t 24:00:00   #Walltime in hh:mm:ss or d-hh:mm:ss
+#SBATCH --array=1-5 
+
+module load python R raxml r8s
+
+Rscript Constraint_script.R subset$SLURM_ARRAY_TASK_ID.fasta subset${SLURM_ARRAY_TASK_ID}_constraint.tre
+
+python FastaToPhylip.py -i subset$SLURM_ARRAY_TASK_ID.fasta -o phylipfile.$SLURM_ARRAY_TASK_ID.phy 
+
+raxmlHPC-PTHREADS-SSE3 -f a -m GTRGAMMA -s phylipfile.$SLURM_ARRAY_TASK_ID.phy -n constrained.$SLURM_ARRAY_TASK_ID -p $RANDOM -x $RANDOM -N 1000 -T 8 -g subset${SLURM_ARRAY_TASK_ID}_constraint.tre 
+
+r8s 
