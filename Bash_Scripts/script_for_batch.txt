@@ -2,7 +2,7 @@
 #SBATCH --job-name=Ordway  #A name for your job
 #SBATCH -o job_%j.out   #Name output file
 #SBATCH --mail-type=ALL   #What emails you want
-#SBATCH --mail-user=jjantzen@ufl.edu   #Where
+#SBATCH --mail-user=user@email   #Where
 #SBATCH --ntasks 8   #Request a single processor
 #SBATCH --mem-per-cpu=1gb   #Per processor memory request
 #SBATCH -t 24:00:00   #Walltime in hh:mm:ss or d-hh:mm:ss
