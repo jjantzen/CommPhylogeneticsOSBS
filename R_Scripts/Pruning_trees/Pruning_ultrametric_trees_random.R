@@ -27,26 +27,33 @@ tree572 <- read.tree("./Basedata_Prep/Ordway572_dated.tre")
 #Match tip labels
 tree572$tip.label <- gsub("'", "", tree572$tip.label)
 tree572$tip.label <- gsub("#\\d+_", "", tree572$tip.label)
+#Since tree with short names written to folder in script "Pruning_phylogram_random_subset_phylogenies.R"
+#Don't write tree here again
 
 #Prune phylogeny to each subset 
+
+#Write function
 prune_tree <- function(taxa){
   prunedtree <- drop.tip(tree572,tree572$tip.label[-match(taxa, tree572$tip.label)])
 }
 
+#prune trees
 all_100_trees <- lapply(subset100_all_taxa, uprune_tree)
 all_200_trees <- lapply(subset200_all_taxa, prune_tree)
 all_300_trees <- lapply(subset300_all_taxa, prune_tree)
 all_400_trees <- lapply(subset400_all_taxa, prune_tree)
 all_500_trees <- lapply(subset500_all_taxa, prune_tree)
 
-
+#assign class
 class(all_100_trees) <- "multiPhylo"
 class(all_200_trees) <- "multiPhylo"
 class(all_300_trees) <- "multiPhylo"
 class(all_400_trees) <- "multiPhylo"
 class(all_500_trees) <- "multiPhylo"
 
-#Save each phylogeny for calculating PD in Biodiverse
+#Save each phylogeny for calculating PD
+
+#write function
 write_subset_trees <- function(tree, filename){
   write.tree(tree, filename)
 }
@@ -68,7 +75,6 @@ names_of_500subsets <- gsub(".fasta", ".tre",subset500_list)
 names_of_500subsets <- gsub("../Subset_analysis_files/500_taxon_subsets/Subsets", "./Subset_files/Random_subsets/Pruned/Ultrametric/Trees_500", names_of_500subsets)
 
 #Actually write trees
-
 mapply(write_subset_trees, tree=all_100_trees, filename=names_of_100subsets)
 mapply(write_subset_trees, tree=all_200_trees, filename=names_of_200subsets)
 mapply(write_subset_trees, tree=all_300_trees, filename=names_of_300subsets)
