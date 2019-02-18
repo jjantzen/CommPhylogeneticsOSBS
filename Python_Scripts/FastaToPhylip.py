@@ -1,3 +1,5 @@
+#Python script for convertingi fasta file to phylip format
+
 #!/usr/bin/env python
 
 import argparse
