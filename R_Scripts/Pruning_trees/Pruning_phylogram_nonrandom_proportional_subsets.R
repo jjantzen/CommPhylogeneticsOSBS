@@ -1,4 +1,4 @@
-#Pruning phylogenies to nonrandom proportional subsets
+#Pruning phylogenies to nonrandom proportional subsets (phylograms)
 
 #Read in subset taxa names for each proportional subset
 #Get list of files to read
@@ -55,8 +55,11 @@ tree572 <- read.tree("./Basedata_Prep/Ordway_full_tree.tre", comment.char = "@")
 #Make tip labels match names in subsets
 tree572$tip.label <- gsub("'", "", tree572$tip.label)
 tree572$tip.label <- gsub("#\\d+_", "", tree572$tip.label)
+#Again, don't write new tree file since written in "Pruning_phylogram_random_subset_phylogenies.R"
+
 
 #Prune phylogeny to each subset 
+
 #Write function
 prune_tree <- function(taxa){
   prunedtree <- drop.tip(tree572, tree572$tip.label[-match(taxa, tree572$tip.label)])
@@ -69,6 +72,7 @@ prop_300_trees <- lapply(prop_300_names, prune_tree)
 prop_400_trees <- lapply(prop_400_names, prune_tree)
 prop_500_trees <- lapply(prop_500_names, prune_tree)
 
+#assign class
 class(prop_100_trees) <- "multiPhylo"
 class(prop_200_trees) <- "multiPhylo"
 class(prop_300_trees) <- "multiPhylo"
@@ -76,6 +80,7 @@ class(prop_400_trees) <- "multiPhylo"
 class(prop_500_trees) <- "multiPhylo"
 
 #Save each phylogeny for calculating PD 
+
 #Write function
 write_subset_trees <- function(tree, filename){
   write.tree(tree, filename)

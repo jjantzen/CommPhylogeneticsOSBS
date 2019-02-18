@@ -1,4 +1,6 @@
-#Pruning by family - only for Asteraceae, Poaceae, Ericaceae, Cyperaceae, Fabaceae, Fagaceae, Rosids
+#Pruning both phylogram and chronogram
+#Prune by family/clade
+#Only for Asteraceae, Poaceae, Ericaceae, Cyperaceae, Fabaceae, Fagaceae, Rosids
 
 prop_rep <- read.csv("../Names/Proportional_representation.csv", stringsAsFactors = FALSE)
 
@@ -9,15 +11,18 @@ taxa_list$Name <- paste0(taxa_list$Family, "_", taxa_list$Taxa)
 families_list <- prop_rep[1:6,1:2]
 
 #Read trees to prune 
+
 #Phylogram with matched names
 tree572 <- read.tree("./Basedata_Prep/Ordway_572_reduced_names.tre")
+
 #Ultrametric tree
 ult_tree572 <- read.tree("./Basedata_Prep/Ordway572_dated.tre")
-#Match names
+#Match names for ultrametric tree
 ult_tree572$tip.label <- gsub("'", "", ult_tree572$tip.label)
 ult_tree572$tip.label <- gsub("#\\d+_", "", ult_tree572$tip.label)
+#Not saving ultrametric tree with short names - is it saved elsewhere?
 
-#Get taxa for each group (based on looking at tree for mrca)
+#Get taxa for each clade (looking at tree to determine mrca)
 rosids <- tips(tree572, mrca(tree572)["Sapindaceae_Acer_rubrum", "Fabaceae_Dalea_pinnata"])
 
 Asteraceae <- tips(tree572, mrca(tree572)["Asteraceae_Liatris_gracilis", "Asteraceae_Cirsium_nuttallii"])
@@ -32,11 +37,14 @@ Fabaceae <- tips(tree572, mrca(tree572)["Fabaceae_Desmodium_floridanum", "Fabace
 
 Fagaceae <- tips(tree572, mrca(tree572)["Fagaceae_Quercus_myrtifolia", "Fagaceae_Quercus_chapmanii"])
 
-#Prune phylogram to each subset
+#Prune phylogram to each subset of clades
+
+#write function
 prune_tree <- function(taxa){
   prunedtree <- drop.tip(tree572, tree572$tip.label[-match(taxa, tree572$tip.label)])
 }
 
+#prune phylogram to clade
 Asteraceae_tree <- prune_tree(Asteraceae)
 Poaceae_tree <- prune_tree(Poaceae)
 Cyperaceae_tree <- prune_tree(Cyperaceae)
@@ -47,10 +55,12 @@ rosid_tree <- prune_tree(rosids)
 
 #Prune ultrametric phylogeny
 
+#Write function
 ult_prune_tree <- function(taxa){
   prunedtree <- drop.tip(ult_tree572, ult_tree572$tip.label[-match(taxa, ult_tree572$tip.label)])
 }
 
+#prune chronogram to clade
 ult_Asteraceae_tree <- ult_prune_tree(Asteraceae)
 ult_Poaceae_tree <- ult_prune_tree(Poaceae)
 ult_Cyperaceae_tree <- ult_prune_tree(Cyperaceae)
@@ -59,8 +69,7 @@ ult_Fabaceae_tree <- ult_prune_tree(Fabaceae)
 ult_Fagaceae_tree <- ult_prune_tree(Fagaceae)
 ult_rosid_tree <- ult_prune_tree(rosids)
 
-#Write trees 
-
+#Write trees - both phylogram and chronogram
 write.tree(Asteraceae_tree, file = "./Subset_files/By_family/Cladograms/Asteraceae_tree.tre")
 write.tree(Poaceae_tree, file = "./Subset_files/By_family/Cladograms/Poaceae_tree.tre")
 write.tree(Cyperaceae_tree, file = "./Subset_files/By_family/Cladograms/Cyperaceae_tree.tre")
