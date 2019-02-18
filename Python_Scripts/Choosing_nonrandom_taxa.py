@@ -1,5 +1,6 @@
 #I am skeptical that I actually used this script to generate the lists of non-random taxa
 #I think I used an R script instead
+#Didn't use this script - delete
 
 
 #! /usr/bin/env python

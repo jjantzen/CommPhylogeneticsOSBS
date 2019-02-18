@@ -1,3 +1,6 @@
+#Python script for getting number of taxa in families
+#Probably didn't actually use this script but an example of how to do this
+
 #! /usr/bin/env python
 
 #Open file, parse input, reorganize bits to get only part of the input, sort it, count by one variable, then write to a new file
