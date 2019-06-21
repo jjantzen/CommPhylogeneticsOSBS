@@ -751,6 +751,8 @@ write.csv(NRI_ult_all, "./Plots/2017_botany/Files_to_plot/Raw_NRI_ult_random_sub
 write.csv(raw_PD_recon_all, "./Plots/2017_botany/Files_to_plot/Raw_PD_recon_random_subsets.csv")
 write.csv(raw_PD_prune_all, "./Plots/2017_botany/Files_to_plot/Raw_PD_prune_random_subsets.csv")
 write.csv(PD_ult_all, "./Plots/2017_botany/Files_to_plot/Raw_PD_ult_random_subsets.csv")
+
+
 #Read files
 NTI_recon_all <- read.csv("./Plots/2017_botany/Files_to_plot/Raw_NTI_recon_random_subsets.csv", stringsAsFactors = FALSE)
 NRI_recon_all <- read.csv("./Plots/2017_botany/Files_to_plot/Raw_NRI_recon_random_subsets.csv", stringsAsFactors = FALSE)
@@ -815,18 +817,18 @@ ggplot()+
   theme(text = element_text(size=10))
 dev.off()
 
-raw_PD_recon_all_trans <- as.data.frame(t(raw_PD_recon_all))
-raw_PD_recon_all_trans$community <- rownames(raw_PD_recon_all_trans)
-raw_PD_recon_all_trans$X30
-png("./Plots/2017_botany/Actual_values/recon_subset_PD.png")
-ggplot(data = raw_PD_recon_all)+
-  geom_point(aes(x = subset, y = Taxa))+
-  ylab("PD")
-dev.off()
-
-png("./Plots/2017_botany/Actual_values/recon_subset_PD.png")
-ggplot(data = raw_PD_recon_all_trans)+
-  geom_boxplot(aes(x = community, y = X30))+
-  ylab("PD")
-dev.off()
-
+# raw_PD_recon_all_trans <- as.data.frame(t(raw_PD_recon_all))
+# raw_PD_recon_all_trans$community <- rownames(raw_PD_recon_all_trans)
+# raw_PD_recon_all_trans$X30
+# png("./Plots/2017_botany/Actual_values/recon_subset_PD.png")
+# ggplot(data = raw_PD_recon_all)+
+#   geom_point(aes(x = subset, y = Taxa))+
+#   ylab("PD")
+# dev.off()
+# 
+# png("./Plots/2017_botany/Actual_values/recon_subset_PD.png")
+# ggplot(data = raw_PD_recon_all_trans)+
+#   geom_boxplot(aes(x = community, y = X30))+
+#   ylab("PD")
+# dev.off()
+# 
