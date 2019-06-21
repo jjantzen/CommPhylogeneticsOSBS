@@ -80,7 +80,7 @@ class(prop_400_trees) <- "multiPhylo"
 class(prop_500_trees) <- "multiPhylo"
 
 #Save each phylogeny for calculating PD 
-
+ 
 #Write function
 write_subset_trees <- function(tree, filename){
   write.tree(tree, filename)
